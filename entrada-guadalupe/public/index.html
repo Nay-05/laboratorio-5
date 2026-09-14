@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venta de Entradas — Entrada Virgen de Guadalupe</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-title">Entrada de la Virgen de Guadalupe</span>
+    <span class="brand-sub">Sistema de Venta de Entradas</span>
+  </div>
+  <div id="sesionInfo" class="sesion-info hidden">
+    <span id="sesionTexto"></span>
+    <button id="btnLogout" class="btn btn-ghost">Cerrar sesión</button>
+  </div>
+</header>
+
+<!-- ============== LOGIN ============== -->
+<section id="viewLogin" class="view">
+  <div class="card login-card">
+    <h2>Ingreso de Cajero / Ventanilla</h2>
+    <label>Usuario
+      <input id="loginUsuario" type="text" placeholder="cajero1" autocomplete="username">
+    </label>
+    <label>Contraseña
+      <input id="loginPassword" type="password" placeholder="••••" autocomplete="current-password">
+    </label>
+    <button id="btnLogin" class="btn btn-primary">Iniciar sesión</button>
+    <p id="loginError" class="error hidden"></p>
+    <p class="hint">Demo cajeros: cajero1 / cajero2 / cajero3 — contraseña: 1234</p>
+    <p class="hint">Demo administración: admin — contraseña: admin123</p>
+  </div>
+</section>
+
+<!-- ============== VENTA ============== -->
+<section id="viewVenta" class="view hidden">
+  <div class="grid">
+
+    <!-- Paso 1: Comprador -->
+    <div class="card">
+      <h3>1. Datos del comprador</h3>
+      <label>Cédula de Identidad
+        <div class="row">
+          <input id="ciInput" type="text" placeholder="Ej: 5487421">
+          <button id="btnBuscarCi" class="btn">Buscar</button>
+        </div>
+      </label>
+      <div id="ciResultado" class="ci-resultado"></div>
+      <label>Nombre completo
+        <input id="nombreInput" type="text">
+      </label>
+      <label>Teléfono (opcional)
+        <input id="telefonoInput" type="text">
+      </label>
+
+      <h4>Checklist de documentación obligatoria</h4>
+      <label class="check"><input type="checkbox" id="chkCedula"> Cédula de Identidad (Original)</label>
+      <label class="check"><input type="checkbox" id="chkLuz"> Factura de servicio de Luz</label>
+      <label class="check"><input type="checkbox" id="chkImpuestos"> Comprobante de Impuestos del Inmueble (gestión pasada pagada)</label>
+    </div>
+
+    <!-- Paso 2: Sector y puesto -->
+    <div class="card">
+      <h3>2. Selección de sector y puesto</h3>
+      <div id="sectoresGrid" class="sectores-grid"></div>
+
+      <div id="puestoBox" class="hidden">
+        <h4>Puesto / Metro lineal en <span id="sectorSeleccionadoNombre"></span></h4>
+        <div class="row">
+          <input id="puestoInput" type="text" placeholder="Ej: P-045">
+          <button id="btnBloquear" class="btn">Reservar (5 min)</button>
+        </div>
+        <p id="bloqueoEstado" class="hint"></p>
+      </div>
+    </div>
+
+    <!-- Paso 3: Confirmación -->
+    <div class="card">
+      <h3>3. Confirmar venta</h3>
+      <div id="resumenVenta" class="resumen"></div>
+      <button id="btnVender" class="btn btn-primary btn-block" disabled>Registrar venta e imprimir</button>
+      <p id="ventaError" class="error hidden"></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== PANEL DE ADMINISTRACIÓN ============== -->
+<section id="viewAdmin" class="view hidden">
+  <nav class="admin-tabs">
+    <button class="tab-btn active" data-tab="tabSectores">Sectores y tarifario</button>
+    <button class="tab-btn" data-tab="tabVentanillas">Ventanillas</button>
+    <button class="tab-btn" data-tab="tabDashboard">Dashboard de ventas</button>
+  </nav>
+
+  <!-- Sectores: editar nombre, tramo, precio, cupos y color -->
+  <div id="tabSectores" class="tab-panel card">
+    <h3>Sectores y tarifario</h3>
+    <p class="hint">Los cambios se guardan por fila y se aplican de inmediato a la venta.</p>
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Sector</th><th>Tramo</th><th>Precio (Bs)</th><th>Cupos</th><th>Color</th><th>Activo</th><th></th></tr>
+        </thead>
+        <tbody id="tbodySectores"></tbody>
+      </table>
+    </div>
+    <p id="sectoresAdminMsg" class="hint"></p>
+  </div>
+
+  <!-- Ventanillas: crear y editar cajeros -->
+  <div id="tabVentanillas" class="tab-panel card hidden">
+    <h3>Ventanillas</h3>
+    <div class="table-scroll">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Código</th><th>Distrito</th><th>Usuario</th><th>Sector restringido</th><th>Rol</th><th>Activo</th><th>Nueva clave</th><th></th></tr>
+        </thead>
+        <tbody id="tbodyVentanillas"></tbody>
+      </table>
+    </div>
+    <p id="ventanillasAdminMsg" class="hint"></p>
+
+    <h4>Nueva ventanilla</h4>
+    <div class="nueva-ventanilla-grid">
+      <label>Código<input id="nvCodigo" type="text" placeholder="V-04"></label>
+      <label>Distrito<input id="nvDistrito" type="text" placeholder="Distrito 4"></label>
+      <label>Usuario<input id="nvUsuario" type="text" placeholder="cajero4"></label>
+      <label>Contraseña<input id="nvPassword" type="text" placeholder="1234"></label>
+      <label>Sector restringido
+        <select id="nvSector"><option value="">Todos</option></select>
+      </label>
+      <label>Rol
+        <select id="nvRol"><option value="CAJERO">Cajero</option><option value="ADMIN">Administrador</option></select>
+      </label>
+      <button id="btnCrearVentanilla" class="btn btn-primary">Crear ventanilla</button>
+    </div>
+  </div>
+
+  <!-- Dashboard de ventas por sector y ventanilla -->
+  <div id="tabDashboard" class="tab-panel card hidden">
+    <div class="dash-header">
+      <h3>Dashboard de ventas</h3>
+      <button id="btnRefrescarDash" class="btn">Actualizar</button>
+    </div>
+    <div id="dashTotales" class="dash-totales"></div>
+
+    <h4>Vendido y recaudado por sector</h4>
+    <div id="chartSector" class="chart-bars"></div>
+
+    <h4>Recaudado por ventanilla</h4>
+    <div id="chartVentanilla" class="chart-bars"></div>
+  </div>
+</section>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

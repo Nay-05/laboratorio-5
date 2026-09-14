@@ -1,0 +1,177 @@
+:root {
+  --bg: #f4f1ea;
+  --card: #ffffff;
+  --ink: #26211a;
+  --muted: #7a7264;
+  --gold: #b8860b;
+  --red: #8c2f2f;
+  --green: #2e7d32;
+  --border: #e3ddce;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+.hidden { display: none !important; }
+
+.topbar {
+  background: linear-gradient(90deg, var(--red), #6e2323);
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand-title { font-size: 1.15rem; font-weight: 700; display: block; }
+.brand-sub { font-size: .8rem; opacity: .85; }
+.sesion-info { display: flex; align-items: center; gap: 12px; font-size: .9rem; }
+
+.view { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.login-card { max-width: 360px; margin: 60px auto; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+}
+.card h3 { margin-top: 0; color: var(--red); }
+.card h4 { margin-bottom: 6px; }
+
+label { display: block; margin: 10px 0 4px; font-size: .85rem; color: var(--muted); }
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: .95rem;
+}
+.row { display: flex; gap: 8px; }
+.row input { flex: 1; }
+
+.btn {
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  background: #f0ece0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: .9rem;
+}
+.btn:hover { background: #e6e0cf; }
+.btn-primary { background: var(--red); color: #fff; border-color: var(--red); }
+.btn-primary:hover { background: #6e2323; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.5); }
+.btn-block { width: 100%; margin-top: 10px; }
+
+.check { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--ink); }
+.check input { width: auto; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.sectores-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 10px; }
+.sector-btn {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 10px;
+  color: #fff;
+  font-size: .8rem;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.3;
+}
+.sector-btn b { display: block; font-size: .95rem; }
+.sector-btn.selected { border-color: #000; outline: 3px solid var(--gold); }
+.sector-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+.ci-resultado {
+  font-size: .85rem;
+  background: #f8f6ef;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  margin: 6px 0;
+  min-height: 20px;
+}
+.resumen { font-size: .9rem; line-height: 1.6; min-height: 90px; }
+.resumen dt { color: var(--muted); }
+.resumen dd { margin: 0 0 6px; font-weight: 600; }
+
+.error { color: #b71c1c; font-size: .85rem; }
+.ok { color: var(--green); font-size: .85rem; }
+.hint { color: var(--muted); font-size: .78rem; }
+
+/* ---- Panel de administración ---- */
+.admin-tabs { display: flex; gap: 6px; max-width: 1100px; margin: 0 auto 14px; padding: 0 24px; }
+.tab-btn {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  background: #f0ece0;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  font-size: .85rem;
+  color: var(--ink);
+}
+.tab-btn.active { background: var(--card); border-bottom: 2px solid var(--red); font-weight: 600; color: var(--red); }
+.tab-panel { max-width: 1100px; margin: 0 auto 24px; }
+.tab-panel.hidden { display: none; }
+
+.table-scroll { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: 10px; }
+.admin-table th, .admin-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+.admin-table input[type=text], .admin-table input[type=number] {
+  width: 100%; min-width: 70px; padding: 5px 6px; border: 1px solid var(--border); border-radius: 5px; font-size: .85rem;
+}
+.admin-table input[type=color] { width: 40px; height: 28px; padding: 0; border: 1px solid var(--border); border-radius: 5px; }
+.admin-table select { padding: 5px; border: 1px solid var(--border); border-radius: 5px; font-size: .85rem; }
+.admin-table .btn { padding: 5px 10px; font-size: .78rem; }
+.admin-table tr.fila-guardada { animation: flashOk 1s ease; }
+@keyframes flashOk { from { background: #e3f4e6; } to { background: transparent; } }
+
+.nueva-ventanilla-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  align-items: end;
+  margin-top: 8px;
+}
+.nueva-ventanilla-grid label { margin: 0; }
+.nueva-ventanilla-grid .btn { grid-column: -2 / -1; }
+
+.dash-header { display: flex; justify-content: space-between; align-items: center; }
+.dash-totales { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 14px 0; }
+.dash-card {
+  background: #f8f6ef;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+.dash-card .valor { font-size: 1.5rem; font-weight: 700; color: var(--red); display: block; }
+.dash-card .etiqueta { font-size: .78rem; color: var(--muted); }
+
+.chart-bars { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 20px; }
+.chart-bar-row { display: grid; grid-template-columns: 130px 1fr 90px; align-items: center; gap: 8px; font-size: .82rem; }
+.chart-bar-track { background: #f0ece0; border-radius: 6px; overflow: hidden; height: 18px; }
+.chart-bar-fill { height: 100%; border-radius: 6px; transition: width .3s; }
+.chart-bar-valor { text-align: right; color: var(--muted); }
+
+/* ---- Ticket térmico (ventana de impresión) ---- */
+.ticket {
+  width: 280px;
+  margin: 20px auto;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  border: 1px dashed #999;
+}
+.ticket h2 { font-size: 14px; text-align: center; margin: 0 0 6px; }
+.ticket hr { border: none; border-top: 1px dashed #999; margin: 8px 0; }
+.ticket .qr { text-align: center; margin: 10px 0; }
+.ticket .qr img { width: 140px; height: 140px; }
+.ticket .campo { display: flex; justify-content: space-between; }
